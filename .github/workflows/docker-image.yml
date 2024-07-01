@@ -41,13 +41,16 @@ jobs:
           repository: alperen-selcuk/githubaction-docker-argocd-kubernetes
           ref: main
           token: ${{ secrets.GIT_TOKEN }}
-      - name: git_push
-        run: /
+      - name: git_config
+        run: |
           git config --global user.email "alperenhasanselcuk@gmail.com"
           git config --global user.name "alperen-selcuk"
           sed -i '' 's|hasanalperen/githubaction:.*|hasanalperen/githubaction:{{ github.run_id }}|' manifests/deployment.yaml
+          cat manifests/deployment.yaml
           git add -A
           git commit -am "update manifest"
+      - name: git_push
+        run: |
           git push origin main
         
       
