@@ -29,5 +29,5 @@ jobs:
         with:
           context: app/
           push: true
-          tags: $REGISTRY/$APP:$GITHUB_RUN_ID
+          tags: ${{ env.REGISTRY }}/${{ env.APP }}:${{ github.run_id }}
 
