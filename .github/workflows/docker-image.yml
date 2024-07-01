@@ -45,9 +45,9 @@ jobs:
         run: |
           git config --global user.email "alperenhasanselcuk@gmail.com"
           git config --global user.name "alperen-selcuk"
-          ls -la
-          sed -i '' 's|hasanalperen/githubaction:.*|hasanalperen/githubaction:{{ github.run_id }}|' ./manifests/deployment.yaml
-          cat manifests/deployment.yaml
+          cd manifests
+          sed -i '' 's|hasanalperen/githubaction:.*|hasanalperen/githubaction:{{ github.run_id }}|' deployment.yaml
+          cat deployment.yaml
           git add -A
           git commit -am "update manifest"
       - name: git_push
