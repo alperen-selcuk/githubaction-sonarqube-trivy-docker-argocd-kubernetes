@@ -34,6 +34,18 @@ kubectl create namespace argocd
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "NodePort"}}'
 ```
+you can find password on secret
+
+```
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath='{.data.password}' | base64 -d
+```
+
+<img width="1448" alt="image" src="https://github.com/alperen-selcuk/githubaction-docker-argocd-kubernetes/assets/78741582/d8ce15d8-fe99-4925-a6f9-338d941dd240">
+
 
 then add argocd application on github and see how to work
+
+<img width="753" alt="image" src="https://github.com/alperen-selcuk/githubaction-docker-argocd-kubernetes/assets/78741582/7bf8582a-601c-40e4-9f00-e6e979834bef">
+
+
 .
