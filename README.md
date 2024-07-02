@@ -26,3 +26,14 @@ after installation you can see KinD cluster IP local and port different. because
 
 <img width="1277" alt="image" src="https://github.com/alperen-selcuk/githubaction-docker-argocd-kubernetes/assets/78741582/90419fc5-e935-46fd-8130-7d82955d9491">
 
+you can install argocd on kubernetes simple yaml file. crd and argocd
+
+```
+kubectl apply -k https://github.com/argoproj/argo-cd/manifests/crds\?ref\=stable
+kubectl create namespace argocd
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "NodePort"}}'
+```
+
+then add argocd application on github and see how to work
+.
