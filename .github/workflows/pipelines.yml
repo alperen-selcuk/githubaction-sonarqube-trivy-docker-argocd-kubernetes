@@ -20,7 +20,7 @@ jobs:
       - name: check repository
         uses: actions/checkout@v4
       - name: Set up Trivy
-        uses: aquasecurity/trivy-action@0.20.0
+        uses: aquasecurity/trivy-action@0.23.0
         with:
           scan-type: 'fs'
   docker_build_and_push:
@@ -42,10 +42,24 @@ jobs:
           context: app/
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.APP }}:${{ github.run_id }}
+  image_scane:
+    name: trivy2
+    runs-on: builder
+    needs: ['docker_build_and_push','file_scan']
+    steps:
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@0.23.0
+        with:
+          image-ref: ${{ env.REGISTRY }}/${{ env.APP }}:${{ github.run_id }}
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
   manifest_update:
     name: argocd
     runs-on: builder
-    needs: ['docker_build_and_push','file_scan']
+    needs: ['docker_build_and_push','file_scan','image_scane']
     steps: 
       - name: check repository
         uses: actions/checkout@v4
