@@ -13,6 +13,11 @@ sudo ./svc.sh install
 sudo ./svc.sh start
 ```
 
+on your repo you need add secret variable to use pipelines.
+
+<img width="923" alt="image" src="https://github.com/alperen-selcuk/githubaction-docker-argocd-kubernetes/assets/78741582/31d910c8-6b1a-425c-a299-b57034dbc017">
+
+
 after that you can create kubernetes cluster, mine will be KinD same machine with github-runner so runner can reach kubernetes cluster locally. you can use public kubernetes cluster such as GKE, AKS, EKS etc
 
 you can use this script for create KinD cluster.
