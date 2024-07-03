@@ -18,7 +18,7 @@ jobs:
     runs-on: builder
     steps:
       - name: Set up Trivy
-        uses: aquasecurity/trivy-action@v0.2.0
+        uses: aquasecurity/trivy-action@0.23.0
         id: trivy-setup
       - name: Trivy file scan
         run: trivy fs --exit-code 1 --severity HIGH,CRITICAL .
