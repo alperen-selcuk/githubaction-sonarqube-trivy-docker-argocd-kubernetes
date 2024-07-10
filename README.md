@@ -1,6 +1,7 @@
-# githubaction-docker-argocd-kubernetes
+# githubaction-trivy-docker-argocd-kubernetes
 
-![image](https://github.com/alperen-selcuk/githubaction-docker-argocd-kubernetes/assets/78741582/94067901-e44c-4451-8b05-5005892a803b)
+![image](https://github.com/alperen-selcuk/githubaction-docker-argocd-kubernetes/assets/78741582/b7535dd0-39f2-4fc6-b9bc-4abf0d4299ec)
+
 
 first you need install github-runner on-premise server. you can find runner page how to install
 
