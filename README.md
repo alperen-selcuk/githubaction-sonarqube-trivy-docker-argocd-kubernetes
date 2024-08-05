@@ -44,6 +44,9 @@ you can use sonarqube.yaml on the repo and install with docker compose
 docker compose -f sonarqube.yaml up -d
 ```
 
+![image](https://github.com/user-attachments/assets/f273aebc-ea59-47c1-89c0-e841b6f07a5d)
+
+
 ### argocd 
 you can install argocd on kubernetes simple yaml file. crd and argocd
 
