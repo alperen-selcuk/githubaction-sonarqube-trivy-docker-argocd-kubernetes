@@ -1,6 +1,8 @@
 # githubaction-trivy-sonarqube-docker-argocd-kubernetes
 
-![image](https://github.com/alperen-selcuk/githubaction-docker-argocd-kubernetes/assets/78741582/b7535dd0-39f2-4fc6-b9bc-4abf0d4299ec)
+
+![image](https://github.com/user-attachments/assets/80377cfc-5a71-4926-a22a-95abde9efa58)
+
 
 
 first you need install github-runner on-premise server. you can find runner page how to install
