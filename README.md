@@ -34,6 +34,17 @@ after installation you can see KinD cluster IP local and port different. because
 
 <img width="1277" alt="image" src="https://github.com/alperen-selcuk/githubaction-docker-argocd-kubernetes/assets/78741582/90419fc5-e935-46fd-8130-7d82955d9491">
 
+### sonarqube
+
+you can install sonarqube on dockerhost and it work reaaly good.
+
+you can use sonarqube.yaml on the repo and install with docker compose
+
+```
+docker compose -f sonarqube.yaml up -d
+```
+
+### argocd 
 you can install argocd on kubernetes simple yaml file. crd and argocd
 
 ```
