@@ -1,4 +1,4 @@
-# githubaction-trivy-docker-argocd-kubernetes
+# githubaction-trivy-sonarqube-docker-argocd-kubernetes
 
 ![image](https://github.com/alperen-selcuk/githubaction-docker-argocd-kubernetes/assets/78741582/b7535dd0-39f2-4fc6-b9bc-4abf0d4299ec)
 
