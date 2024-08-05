@@ -23,6 +23,20 @@ jobs:
         uses: aquasecurity/trivy-action@0.23.0
         with:
           scan-type: 'fs'
+  sonarqube_scan:
+    name: SonarQube Analysis
+    runs-on: builder
+    steps:
+      - name: check repository
+        uses: actions/checkout@v4
+      - name: SonarQube Scanner
+        uses: sonarsource/sonarqube-scan-action@v1.0.0
+        with:
+          args: >
+            -Dsonar.projectKey=githubaction
+            -Dsonar.sources=.
+            -Dsonar.host.url=${{ secrets.SONARQUBE_HOST }}
+            -Dsonar.login=${{ secrets.SONARQUBE_TOKEN }}
   docker_build_and_push:
     name: docker
     runs-on: builder
