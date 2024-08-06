@@ -36,13 +36,24 @@ after installation you can see KinD cluster IP local and port different. because
 
 ### sonarqube
 
-you can install sonarqube on dockerhost and it work reaaly good.
+you can install sonarqube on dockerhost and it work really good.
 
 you can use sonarqube.yaml on the repo and install with docker compose
 
 ```
 docker compose -f sonarqube.yaml up -d
 ```
+
+
+after installation first you create project on sonarqube
+
+![image](https://github.com/user-attachments/assets/72a6278f-f741-4c83-a286-c52534aa3a2f)
+
+than generate token on sonarqube
+
+![image](https://github.com/user-attachments/assets/810fc6aa-0752-4fc6-ae2a-ba992d40370b)
+
+add sonar URL and token for github yaml via secrets.
 
 ![image](https://github.com/user-attachments/assets/f273aebc-ea59-47c1-89c0-e841b6f07a5d)
 
