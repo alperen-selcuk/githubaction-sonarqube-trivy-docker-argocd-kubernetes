@@ -24,6 +24,7 @@ jobs:
         uses: aquasecurity/trivy-action@0.23.0
         with:
           scan-type: 'fs'
+  
   sonarqube_scan:
     name: SonarQube Analysis
     runs-on: builder
@@ -38,6 +39,15 @@ jobs:
             -Dsonar.sources=.
             -Dsonar.host.url=${{ secrets.SONARQUBE_HOST }}
             -Dsonar.login=${{ secrets.SONARQUBE_TOKEN }}
+      - name: SonarQube Quality Gate check
+        uses: sonarsource/sonarqube-quality-gate-action@master
+        timeout-minutes: 5
+        env:
+         SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
+         SONAR_HOST_URL: ${{ secrets.SONARQUBE_HOST }}
+      - name: "Example show SonarQube Quality Gate Status value"
+        run: echo "The Quality Gate status is ${{ steps.sonarqube-quality-gate-check.outputs.quality-gate-status }}"
+  
   docker_build_and_push:
     name: docker
     runs-on: builder
@@ -57,6 +67,7 @@ jobs:
           context: app/
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.APP }}:${{ github.run_id }}
+  
   image_scane:
     name: trivy2
     runs-on: builder
@@ -71,6 +82,7 @@ jobs:
           ignore-unfixed: true
           vuln-type: 'os,library'
           severity: 'CRITICAL,HIGH'
+  
   manifest_update:
     name: argocd
     runs-on: builder
