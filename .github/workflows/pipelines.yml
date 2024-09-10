@@ -11,7 +11,7 @@ on:
     inputs: 
       branch_name: 
         required: true
-        default: "master"
+        default: "main"
 
 
 env:
