@@ -4,8 +4,12 @@
 ![image](https://github.com/user-attachments/assets/80377cfc-5a71-4926-a22a-95abde9efa58)
 
 
+### GITHUB RUNNER
 
-first you need install github-runner on-premise server. you can find runner page how to install
+
+first you need install github-runner on-premise server. you can find runner page how to install. you can find runner settings on
+
+**github repository -> settings -> actions -> runners -> self-hosted runners -> add runner**
 
 ```
 mkdir actions-runner && cd actions-runner
@@ -16,14 +20,45 @@ sudo ./svc.sh install
 sudo ./svc.sh start
 ```
 
+### SONARQUBE
+
+you can install sonarqube on dockerhost and it work really good.
+
+you can use sonarqube.yaml on the repo and install with docker compose
+
+```
+docker compose -f sonarqube.yaml up -d
+```
+
+you can access sonarqube on 9000 port.
+
+after installation first you create project on sonarqube
+
+![image](https://github.com/user-attachments/assets/72a6278f-f741-4c83-a286-c52534aa3a2f)
+
+than generate token on sonarqube. save this token.
+
+![image](https://github.com/user-attachments/assets/810fc6aa-0752-4fc6-ae2a-ba992d40370b)
+
+
+### GITHUB SECRET 
+
 on your repo you need add secret variable to use pipelines.
+
+which registry you use need username password to push docker images. we use also github push for argocd for this stage we need github PAT. 
 
 <img width="923" alt="image" src="https://github.com/alperen-selcuk/githubaction-docker-argocd-kubernetes/assets/78741582/31d910c8-6b1a-425c-a299-b57034dbc017">
 
+add sonar URL and token for github yaml via secrets too.
 
-after that you can create kubernetes cluster, mine will be KinD same machine with github-runner so runner can reach kubernetes cluster locally. you can use public kubernetes cluster such as GKE, AKS, EKS etc
+![image](https://github.com/user-attachments/assets/f273aebc-ea59-47c1-89c0-e841b6f07a5d)
 
-you can use this script for create KinD cluster.
+
+### KUBERNETES 
+
+after that you can create kubernetes cluster, mine will be KinD on same machine with github-runner and sonarqube. by this way runner can reach kubernetes cluster locally. you can use public kubernetes cluster such as GKE, AKS, EKS etc
+
+below this script is enough to creation of KinD cluster. it should install docker and create kind kubernetes.
 
 ```
 curl https://raw.githubusercontent.com/alperen-selcuk/kind-install/main/kind.sh | bash -
@@ -34,31 +69,9 @@ after installation you can see KinD cluster IP local and port different. because
 
 <img width="1277" alt="image" src="https://github.com/alperen-selcuk/githubaction-docker-argocd-kubernetes/assets/78741582/90419fc5-e935-46fd-8130-7d82955d9491">
 
-### sonarqube
 
-you can install sonarqube on dockerhost and it work really good.
+### ARGOCD 
 
-you can use sonarqube.yaml on the repo and install with docker compose
-
-```
-docker compose -f sonarqube.yaml up -d
-```
-
-
-after installation first you create project on sonarqube
-
-![image](https://github.com/user-attachments/assets/72a6278f-f741-4c83-a286-c52534aa3a2f)
-
-than generate token on sonarqube
-
-![image](https://github.com/user-attachments/assets/810fc6aa-0752-4fc6-ae2a-ba992d40370b)
-
-add sonar URL and token for github yaml via secrets.
-
-![image](https://github.com/user-attachments/assets/f273aebc-ea59-47c1-89c0-e841b6f07a5d)
-
-
-### argocd 
 you can install argocd on kubernetes simple yaml file. crd and argocd
 
 ```
