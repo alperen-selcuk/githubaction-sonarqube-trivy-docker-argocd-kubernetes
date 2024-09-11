@@ -32,7 +32,7 @@ jobs:
   
   sonarqube_scan:
     name: SonarQube Analysis
-    runs-on: ubuntu-latest  # 'builder' yerine genellikle 'ubuntu-latest' tercih edilir
+    runs-on: builder
     env:
       SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
       SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
