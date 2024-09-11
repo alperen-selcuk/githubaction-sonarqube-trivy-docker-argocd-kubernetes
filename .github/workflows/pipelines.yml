@@ -56,8 +56,8 @@ jobs:
             -Dsonar.login=${{ secrets.SONARQUBE_TOKEN }}
   
       - name: SonarQube Quality Gate check
-        id: sonarqube-quality-gate-check  # Burada id ile kalite kontrol kimliği atıyoruz
-        uses: sonarsource/sonarqube-quality-gate-action@v1
+        id: sonarqube-quality-gate-check  
+        uses: sonarsource/sonarqube-quality-gate-action@master
         timeout-minutes: 5
   
       - name: "Example show SonarQube Quality Gate Status value"
