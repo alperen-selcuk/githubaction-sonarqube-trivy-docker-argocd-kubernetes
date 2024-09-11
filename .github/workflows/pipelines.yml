@@ -37,6 +37,10 @@ jobs:
       SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
       SONAR_HOST_URL: ${{ secrets.SONARQUBE_HOST }}
     steps:
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
       - name: check repository
         uses: actions/checkout@v4
       - name: SonarQube Scanner
