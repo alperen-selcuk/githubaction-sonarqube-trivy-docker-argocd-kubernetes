@@ -43,9 +43,9 @@ jobs:
           fetch-depth: 0
       - name: SonarQube Scanner
         uses: sonarsource/sonarqube-scan-action@master
+        
       - name: SonarQube Quality Gate check
-        id: sonarqube-quality-gate-check  
-        uses: sonarsource/sonarqube-quality-gate-action@master
+        uses: sonarsource/sonarqube-quality-gate-action@v1.1.0
         timeout-minutes: 5
   
       - name: "Example show SonarQube Quality Gate Status value"
