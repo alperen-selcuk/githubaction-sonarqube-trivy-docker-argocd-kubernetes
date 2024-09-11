@@ -46,7 +46,7 @@ jobs:
           args: >
             -Dsonar.projectKey=githubaction
             -Dsonar.sources=.
-            -Dsonar.host.url=${{ secrets.SONARQUBE_HOST }}
+            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
             -Dsonar.login=${{ secrets.SONARQUBE_TOKEN }}
   
       - name: SonarQube Quality Gate check
