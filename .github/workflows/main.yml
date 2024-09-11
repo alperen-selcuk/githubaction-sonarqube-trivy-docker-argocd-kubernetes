@@ -1,0 +1,114 @@
+name: DevSecOps
+
+on:
+  push:
+    branches: [ "main" ]
+    paths-ignore:
+      - '**/*.yaml'
+      - '**/*.md'
+      - '**/*.yml'
+  workflow_dispatch:
+    inputs: 
+      branch_name: 
+        required: true
+        default: "main"
+
+
+env:
+  REGISTRY: hasanalperen
+  APP: githubaction
+
+jobs:
+  file_scan:
+    name: trivy
+    runs-on: builder
+    steps:
+      - name: check repository
+        uses: actions/checkout@v4
+      - name: Set up Trivy
+        uses: aquasecurity/trivy-action@0.23.0
+        with:
+          scan-type: 'fs'
+  
+  sonarqube_scan:
+    name: SonarQube Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with: 
+          fetch-depth: 0
+        
+      - name: SonarQube Scanner
+        uses: sonarsource/sonarqube-scan-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_HOST_URL }}
+          SONAR_HOST_URL: ${{ secrets.SONARQUBE_TOKEN }}
+  
+      - name: SonarQube Quality Gate check
+        id: sonarqube-quality-gate-check  
+        uses: sonarsource/sonarqube-quality-gate-action@master
+        timeout-minutes: 5
+  
+      - name: "Example show SonarQube Quality Gate Status value"
+        run: echo "The Quality Gate status is ${{ steps.sonarqube-quality-gate-check.outputs.quality-gate-status }}"
+
+  
+  docker_build_and_push:
+    name: docker
+    runs-on: builder
+    steps:
+      - name: check repository
+        uses: actions/checkout@v4
+
+      - name: login to docker registry
+        uses: docker/login-action@v3
+        with:
+          username: ${{secrets.DOCKERHUB_USERNAME}}
+          password: ${{secrets.DOCKERHUB_TOKEN}}
+
+      - name: build and push docker image to registry
+        uses: docker/build-push-action@v5
+        with:
+          context: app/
+          push: true
+          tags: ${{ env.REGISTRY }}/${{ env.APP }}:${{ github.run_id }}
+  
+  image_scane:
+    name: trivy2
+    runs-on: builder
+    needs: ['docker_build_and_push','file_scan']
+    steps:
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@0.23.0
+        with:
+          image-ref: ${{ env.REGISTRY }}/${{ env.APP }}:${{ github.run_id }}
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
+  
+  manifest_update:
+    name: argocd
+    runs-on: builder
+    needs: ['docker_build_and_push','file_scan','image_scane']
+    steps: 
+      - name: check repository
+        uses: actions/checkout@v4
+        with: 
+          repository: alperen-selcuk/githubaction-docker-argocd-kubernetes
+          ref: main
+          token: ${{ secrets.GIT_TOKEN }}
+      - name: git_config
+        run: |
+          git config --global user.email "alperenhasanselcuk@gmail.com"
+          git config --global user.name "alperen-selcuk"
+          sed -i 's|hasanalperen/githubaction:.*|hasanalperen/githubaction:'"${GITHUB_RUN_ID}"'|' manifests/deployment.yaml
+          cat manifests/deployment.yaml
+          git add manifests/deployment.yaml
+          git commit -m "update manifest"
+          git push origin main
+        
+      
+  
