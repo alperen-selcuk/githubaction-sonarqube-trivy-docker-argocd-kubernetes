@@ -30,7 +30,7 @@ you can use sonarqube.yaml on the repo and install with docker compose
 docker compose -f sonarqube.yaml up -d
 ```
 
-you can access sonarqube on 9000 port.
+you can access sonarqube on 9000 port. user: admin pass: admin
 
 after installation first you create project on sonarqube
 
