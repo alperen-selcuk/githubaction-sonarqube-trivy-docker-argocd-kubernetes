@@ -33,6 +33,7 @@ jobs:
   sonarqube_scan:
     name: SonarQube Analysis
     runs-on: builder
+    needs: ['file_scan']
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -58,6 +59,7 @@ jobs:
   docker_build_and_push:
     name: docker
     runs-on: builder
+    needs: ['sonarqube_scan']
     steps:
       - name: check repository
         uses: actions/checkout@v4
