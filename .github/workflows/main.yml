@@ -32,7 +32,7 @@ jobs:
 
   iac_scan:
     name: trivy-iac-scan
-    runs-on: builder
+    runs-on: ubuntu-20.04
     needs: ['file_scan']
     steps:
       - name: Checkout code
