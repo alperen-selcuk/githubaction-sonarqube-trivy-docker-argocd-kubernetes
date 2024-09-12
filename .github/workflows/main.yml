@@ -20,7 +20,7 @@ env:
 
 jobs:
   file_scan:
-    name: trivy
+    name: trivy-file-scan
     runs-on: builder
     steps:
       - name: check repository
@@ -31,7 +31,7 @@ jobs:
           scan-type: 'fs'
   
   sonarqube_scan:
-    name: SonarQube Analysis
+    name: sonarqube-code-quality
     runs-on: ubuntu-latest
     needs: ['file_scan']
     steps:
@@ -57,7 +57,7 @@ jobs:
 
   
   docker_build_and_push:
-    name: docker
+    name: docker-build-push
     runs-on: builder
     needs: ['sonarqube_scan']
     steps:
@@ -78,7 +78,7 @@ jobs:
           tags: ${{ env.REGISTRY }}/${{ env.APP }}:${{ github.run_id }}
   
   image_scane:
-    name: trivy2
+    name: trivy-docker-image-scan
     runs-on: builder
     needs: ['docker_build_and_push','file_scan']
     steps:
@@ -93,7 +93,7 @@ jobs:
           severity: 'CRITICAL,HIGH'
   
   manifest_update:
-    name: argocd
+    name: argocd-kubernetes-deployment
     runs-on: builder
     needs: ['docker_build_and_push','file_scan','image_scane']
     steps: 
