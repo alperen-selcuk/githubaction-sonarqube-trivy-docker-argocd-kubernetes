@@ -51,7 +51,8 @@ which registry you use need username password to push docker images. we use also
 
 add sonar URL and token for github yaml via secrets too.
 
-![image](https://github.com/user-attachments/assets/f273aebc-ea59-47c1-89c0-e841b6f07a5d)
+<img width="574" alt="image" src="https://github.com/user-attachments/assets/5c0d1eca-d07b-4488-9251-4babdaf53792">
+
 
 
 ### KUBERNETES 
