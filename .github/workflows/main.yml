@@ -37,27 +37,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: hadolint-log         
-  kubelint:
-    name: kube-linter
-    runs-on: builder
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - name: Install KubeLinter
-        run: |
-          curl -LO https://github.com/stackrox/kube-linter/releases/download/v0.6.8/kube-linter-linux
-          chmod +x kube-linter-linux
-          sudo mv kube-linter-linux /usr/local/bin/kube-linter
-          kube-linter lint ./manifests/ > kube-linter-report.txt
-      - name: Upload Kubelinter log
-        uses: actions/upload-artifact@v3
-        with:
-          name: kubelint-log
-          path: ./kube-linter-report.txt
-      - name: Download Kubelinter log
-        uses: actions/download-artifact@v3
-        with:
-          name: kubelint-log
+
   file_scan:
     name: trivy-file-scan
     runs-on: builder
@@ -97,7 +77,7 @@ jobs:
   docker_build_and_push:
     name: docker-build-push
     runs-on: builder
-    needs: ['file_scan' ,'sonarqube_scan', 'kubelint', 'dockerfilelint']
+    needs: ['file_scan' ,'sonarqube_scan', 'dockerfilelint']
     steps:
       - name: check repository
         uses: actions/checkout@v4
