@@ -55,7 +55,7 @@ jobs:
           name: kubelint-log
           path: ./kube-linter-report.txt
       - name: Download Kubelinter log
-        uses: actions/upload-artifact@v3
+        uses: actions/download-artifact@v3
         with:
           name: kubelint-log
   file_scan:
