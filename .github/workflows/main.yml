@@ -25,10 +25,14 @@ jobs:
     steps:
       - name: check repository
         uses: actions/checkout@v4
-      - name: Lint Dockerfile
-        uses: hadolint/hadolint-action@v3.1.0
+      - name: Lint Dockerfile with Hadolint
+        run: |
+          docker run --rm -i hadolint/hadolint < ./app/Dockerfile | tee hadolint-output.log
+      - name: Upload Hadolint log
+        uses: actions/upload-artifact@v3
         with:
-          dockerfile: ./app/Dockerfile
+          name: hadolint-log
+          path: hadolint-output.log
   kubelint:
     name: kube-linter
     runs-on: builder
@@ -37,11 +41,16 @@ jobs:
         uses: actions/checkout@v3
       - name: Install KubeLinter
         run: |
-          curl -LO https://github.com/stackrox/kube-linter/releases/latest/download/kube-linter-linux-amd64
-          chmod +x kube-linter-linux-amd64
-          sudo mv kube-linter-linux-amd64 /usr/local/bin/kube-linter
+          wget https://github.com/stackrox/kube-linter/releases/download/v0.6.8/kube-linter-linux
+          chmod +x kube-linter-linux
+          sudo mv kube-linter-linux /usr/local/bin/kube-linter
       - name: Lint Kubernetes Manifests
-        run: kube-linter lint ./manifests/
+        run: kube-linter lint ./manifests/ > kube-linter-report.txt
+      - name: Upload Kubelinter log
+        uses: actions/upload-artifact@v3
+        with:
+          name: kubelint-log
+          path: kube-linter-report.txt
   file_scan:
     name: trivy-file-scan
     runs-on: builder
