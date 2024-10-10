@@ -102,7 +102,7 @@ jobs:
   image_scane:
     name: trivy-docker-image-scan
     runs-on: builder
-    needs: ['docker_build_and_push','file_scan']
+    needs: ['docker_build_and_push']
     steps:
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@0.23.0
@@ -117,7 +117,7 @@ jobs:
   manifest_update:
     name: argocd-kubernetes-deployment
     runs-on: builder
-    needs: ['docker_build_and_push','file_scan','image_scane']
+    needs: ['docker_build_and_push', 'image_scane']
     steps: 
       - name: check repository
         uses: actions/checkout@v4
