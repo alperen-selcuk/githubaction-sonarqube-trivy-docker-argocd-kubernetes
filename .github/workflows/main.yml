@@ -44,8 +44,7 @@ jobs:
           wget https://github.com/stackrox/kube-linter/releases/download/v0.6.8/kube-linter-linux
           chmod +x kube-linter-linux
           sudo mv kube-linter-linux /usr/local/bin/kube-linter
-      - name: Lint Kubernetes Manifests
-        run: kube-linter lint ./manifests/ > kube-linter-report.txt
+          kube-linter lint ./manifests/ > kube-linter-report.txt
       - name: Upload Kubelinter log
         uses: actions/upload-artifact@v3
         with:
