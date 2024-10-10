@@ -28,21 +28,20 @@ jobs:
       - name: Lint Dockerfile
         uses: hadolint/hadolint-action@v3.1.0
         with:
-          dockerfile: ./Dockerfile
+          dockerfile: ./app/Dockerfile
   kubelint:
     name: kube-linter
-    runs-on: ubuntu-latest
+    runs-on: builder
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
       - name: Install KubeLinter
         run: |
-          curl -LO https://github.com/stackrox/kube-linter/releases/latest/download/kube-linter-linux-amd64.tar.gz
-          tar -xzf kube-linter-linux-amd64.tar.gz
-          sudo mv kube-linter /usr/local/bin/
+          curl -LO https://github.com/stackrox/kube-linter/releases/latest/download/kube-linter-linux-amd64
+          chmod +x kube-linter-linux-amd64
+          sudo mv kube-linter-linux-amd64 /usr/local/bin/kube-linter
       - name: Lint Kubernetes Manifests
-        run: kube-linter lint ./k8s/manifests/
+        run: kube-linter lint ./manifests/
   file_scan:
     name: trivy-file-scan
     runs-on: builder
@@ -82,7 +81,7 @@ jobs:
   docker_build_and_push:
     name: docker-build-push
     runs-on: builder
-    needs: ['sonarqube_scan', 'kubelint', 'dockerfilelint']
+    needs: ['file_scan' ,'sonarqube_scan', 'kubelint', 'dockerfilelint']
     steps:
       - name: check repository
         uses: actions/checkout@v4
