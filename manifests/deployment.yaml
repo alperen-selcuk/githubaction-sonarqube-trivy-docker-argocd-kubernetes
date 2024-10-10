@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: hasanalperen/githubaction:10846699029
+          image: hasanalperen/githubaction:11276130310
           ports:
             - containerPort: 3000
 
