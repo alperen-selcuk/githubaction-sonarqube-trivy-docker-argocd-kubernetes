@@ -30,7 +30,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Install kubeval
         run: |
-          curl -sSL https://github.com/instrumenta/kubeval/releases/download/0.16.1/kubeval-linux-amd64.tar.gz | tar -xz
+          wget https://github.com/instrumenta/kubeval/releases/download/v0.16.1/kubeval-linux-amd64.tar.gz
+          tar -xzf kubeval-linux-amd64.tar.gz
           sudo mv kubeval /usr/local/bin/kubeval
       - name: Validate Kubernetes manifests
         run: |
