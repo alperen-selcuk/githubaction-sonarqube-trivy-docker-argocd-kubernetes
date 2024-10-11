@@ -13,6 +13,8 @@ on:
         required: true
         default: "main"
 
+permissions:
+  security-events: write
 
 env:
   REGISTRY: hasanalperen
