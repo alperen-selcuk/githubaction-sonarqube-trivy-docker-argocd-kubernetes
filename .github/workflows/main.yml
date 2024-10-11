@@ -21,6 +21,26 @@ env:
   APP: githubaction
 
 jobs:
+
+  kubelint:
+    name: Validate Kubernetes Manifests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install kubeval
+        run: |
+          curl -sSL https://github.com/instrumenta/kubeval/releases/download/0.16.1/kubeval-linux-amd64.tar.gz | tar -xz
+          sudo mv kubeval /usr/local/bin/kubeval
+      - name: Validate Kubernetes manifests
+        run: |
+          kubeval ./manifests/*.yaml | tee kubeval-output.log
+      - name: Upload kubeval log
+        uses: actions/upload-artifact@v3
+        with:
+          name: kubeval-log
+          path: ./kubeval-output.log
+  
   dockerfilelint:
     name: dockerfile-linter
     runs-on: builder
@@ -86,7 +106,7 @@ jobs:
   docker_build_and_push:
     name: docker-build-push
     runs-on: builder
-    needs: ['file_scan' ,'sonarqube_scan', 'dockerfilelint']
+    needs: ['file_scan' ,'sonarqube_scan', 'dockerfilelint', 'kubelint']
     steps:
       - name: check repository
         uses: actions/checkout@v4
