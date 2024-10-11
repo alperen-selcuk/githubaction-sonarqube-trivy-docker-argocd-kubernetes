@@ -23,7 +23,7 @@ env:
 jobs:
 
   kubelint:
-    name: Validate Kubernetes Manifests
+    name: kubernetes-lint
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
