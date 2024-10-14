@@ -1,7 +1,8 @@
 # githubaction-trivy-sonarqube-docker-argocd-kubernetes
 
 
-![image](https://github.com/user-attachments/assets/80377cfc-5a71-4926-a22a-95abde9efa58)
+![image](https://github.com/user-attachments/assets/e07ce44f-7406-4c4e-9392-a475ae6c7940)
+
 
 
 ### GITHUB RUNNER
